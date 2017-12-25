@@ -1,13 +1,13 @@
 *.tar.gz
 
 *.exe
-src/litecoin
-src/litecoind
-src/litecoin-cli
-src/litecoin-tx
-src/test/test_litecoin
-src/test/test_litecoin_fuzzy
-src/qt/test/test_litecoin-qt
+src/stutz
+src/stutzd
+src/stutz-cli
+src/stutz-tx
+src/test/test_stutz
+src/test/test_stutz_fuzzy
+src/qt/test/test_stutz-qt
 
 # autoreconf
 Makefile.in
@@ -44,6 +44,8 @@ src/qt/forms/ui_*.h
 
 src/qt/test/moc*.cpp
 
+src/wallet.backup
+
 .deps
 .dirstamp
 .libs
@@ -74,12 +76,12 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-litecoin-qt
-Litecoin-Qt.app
+stutz-qt
+Stutz-Qt.app
 
 # Unit-tests
 Makefile.test
-litecoin-qt_test
+stutz-qt_test
 src/test/buildenv.py
 
 # Resources cpp
@@ -93,7 +95,7 @@ build
 *.gcno
 *.gcda
 /*.info
-test_litecoin.coverage/
+test_stutz.coverage/
 total.coverage/
 coverage_percent.txt
 
@@ -113,3 +115,6 @@ contrib/devtools/split-debug.sh
 
 # Netbeans
 nbproject/
+
+# pyenv
+.python-version
