@@ -118,3 +118,5 @@ nbproject/
 
 # pyenv
 .python-version
+
+contrib/devtools/genesiscoinbase.*
