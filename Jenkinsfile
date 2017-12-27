@@ -7,9 +7,16 @@ node('x86') {
     sh '''
       ./autogen.sh
 
-      export CPPFLAGS='-I/usr/local/BerkeleyDB.4.8/include'
-      export LDFLAGS='-L/usr/local/BerkeleyDB.4.8/lib'
-      ./configure --enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER
+      export BDB_PREFIX=/usr/local/BerkeleyDB.4.8
+      
+      ./configure \
+        --enable-zmq \
+        --with-gui=qt5 \
+        --enable-glibc-back-compat \
+        --enable-reduce-exports \
+        CPPFLAGS=-DDEBUG_LOCKORDER \
+        BDB_CFLAGS="-I${BDB_PREFIX}/include" \
+        BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"
     '''
   }
 
