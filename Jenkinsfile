@@ -26,5 +26,7 @@ node('x86') {
 
   stage ('Check') {
     sh 'make check'
+    sh 'cat src/test/test_stutz.log'
+    sh 'cat src/qt/test/test_stutz-qt.log'
   }
 }
