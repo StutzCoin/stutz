@@ -1169,7 +1169,6 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     CAmount nSubsidy = 12910 * COIN;
 
     // dr rütliblock,
-    // gelobet de bergjude
     // vo basel nach como
     // u genf nach st. margrethe,
     // für immer dr stutz
