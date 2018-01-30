@@ -1165,46 +1165,18 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    /*int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
-    // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64)
-        return 0;
-
-    CAmount nSubsidy = 1291000 * COIN;
-    // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
-    nSubsidy >>= halvings;*/
-    
     // fixed inflation
     CAmount nSubsidy = 12910 * COIN;
-    
-    // 1291000000 coins premine for airdrop
+
+    // dr rütliblock,
+    // gelobet de bergjude
+    // vo basel nach como
+    // u genf nach st. margrethe,
+    // für immer dr stutz
+
+    // 18480000000 coins premine for airdrop
     if (nHeight == 1) {
-        nSubsidy = 1291000000 * COIN;
-    }
-    
-    // 2 weeks: 1848000
-    if (nHeight >= 2 && nHeight < 20160) {
-        nSubsidy = 1848000 * COIN;
-    }
-    
-    // 1 half year: 1291000
-    if (nHeight >= 20160 && nHeight < 279360) {
-        nSubsidy = 1291000 * COIN;
-    }
-    
-    // 1 year: 184800
-    if (nHeight >= 279360 && nHeight < 797760) {
-        nSubsidy = 184800 * COIN;
-    }
-    
-    // 1 year: 129100
-    if (nHeight >= 797760 && nHeight < 1316160) {
-        nSubsidy = 129100 * COIN;
-    }
-    
-    // 1 year: 18480
-    if (nHeight >= 1316160 && nHeight < 2352960) {
-        nSubsidy = 18480 * COIN;
+        nSubsidy = 18480000000 * COIN;
     }
     
     return nSubsidy;
