@@ -29,4 +29,29 @@ node('x86') {
     sh 'cat src/test/test_stutz.log'
     sh 'cat src/qt/test/test_stutz-qt.log'
   }
+
+  stage ('Create Distribution') {
+    sh 'mkdir -p dist/bin dist/lib dist/include'
+
+    # binaries
+    sh 'cp stutz-cli dist/bin/'
+    sh 'cp qt/stutz-qt dist/bin/'
+    sh 'cp stutz-tx dist/bin/'
+    sh 'cp stutzd dist/bin/'
+    sh 'cp test/test_stutz dist/bin/'
+
+    # libraries
+    sh 'cp libbitcoinconsensus.0.so dist/lib/'
+
+    # create archive
+    sh 'tar czf linux-amd64.tgz dist/'
+  }
+
+  stage ('Upload') {
+    withCredentials([
+        UsernamePasswordMultiBinding(credentialsId: 'digitalocean-spaces', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
+    ]) {
+        sh 's3cmd put linux-amd64.tgz s3://stutz.ams3.digitaloceanspaces.com/${BRANCH}/dist/linux-amd64.tgz'
+    }
+  }
 }
