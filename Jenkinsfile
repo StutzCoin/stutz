@@ -49,7 +49,7 @@ node('x86') {
 
   stage ('Upload') {
     withCredentials([
-        UsernamePasswordMultiBinding(credentialsId: 'digitalocean-spaces', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
+        usernamePassword(credentialsId: 'digitalocean-spaces', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
     ]) {
         sh 's3cmd put linux-amd64.tgz s3://stutz.ams3.digitaloceanspaces.com/${BRANCH}/dist/linux-amd64.tgz'
     }
