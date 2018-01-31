@@ -34,14 +34,14 @@ node('x86') {
     sh 'mkdir -p dist/bin dist/lib dist/include'
 
     // binaries
-    sh 'cp stutz-cli dist/bin/'
-    sh 'cp qt/stutz-qt dist/bin/'
-    sh 'cp stutz-tx dist/bin/'
-    sh 'cp stutzd dist/bin/'
-    sh 'cp test/test_stutz dist/bin/'
+    sh 'cp src/stutz-cli dist/bin/'
+    sh 'cp src/qt/stutz-qt dist/bin/'
+    sh 'cp src/stutz-tx dist/bin/'
+    sh 'cp src/stutzd dist/bin/'
+    sh 'cp src/test/test_stutz dist/bin/'
 
     // libraries
-    sh 'cp libbitcoinconsensus.0.so dist/lib/'
+    sh 'cp src/libbitcoinconsensus.0.so dist/lib/'
 
     // create archive
     sh 'tar czf linux-amd64.tgz dist/'
