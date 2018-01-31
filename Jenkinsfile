@@ -33,17 +33,17 @@ node('x86') {
   stage ('Create Distribution') {
     sh 'mkdir -p dist/bin dist/lib dist/include'
 
-    # binaries
+    // binaries
     sh 'cp stutz-cli dist/bin/'
     sh 'cp qt/stutz-qt dist/bin/'
     sh 'cp stutz-tx dist/bin/'
     sh 'cp stutzd dist/bin/'
     sh 'cp test/test_stutz dist/bin/'
 
-    # libraries
+    // libraries
     sh 'cp libbitcoinconsensus.0.so dist/lib/'
 
-    # create archive
+    // create archive
     sh 'tar czf linux-amd64.tgz dist/'
   }
 
