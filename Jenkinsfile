@@ -51,7 +51,7 @@ node('x86') {
     withCredentials([
         usernamePassword(credentialsId: 'digitalocean-spaces', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
     ]) {
-        sh 's3cmd put linux-amd64.tgz s3://stutz.ams3.digitaloceanspaces.com/${BRANCH}/dist/linux-amd64.tgz'
+        sh 's3cmd --host=ams3.digitaloceanspaces.com put linux-amd64.tgz s3://stutz/${BRANCH_NAME}/dist/linux-amd64.tgz'
     }
   }
 }
