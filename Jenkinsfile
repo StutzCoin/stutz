@@ -44,7 +44,7 @@ node('x86') {
     sh 'cp src/.libs/libbitcoinconsensus.so dist/lib/'
 
     // create archive
-    sh 'tar czf linux-amd64.tgz -C dist/'
+    sh 'tar czf linux-amd64.tgz dist/'
   }
 
   stage ('Upload') {
