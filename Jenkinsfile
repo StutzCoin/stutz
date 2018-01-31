@@ -41,7 +41,7 @@ node('x86') {
     sh 'cp src/test/test_stutz dist/bin/'
 
     // libraries
-    sh 'cp src/libbitcoinconsensus.0.0.0.so dist/lib/'
+    sh 'cp src/.libs/libbitcoinconsensus.so dist/lib/'
 
     // create archive
     sh 'tar czf linux-amd64.tgz -C dist/'
