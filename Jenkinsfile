@@ -49,9 +49,9 @@ node('x86') {
 
   stage ('Upload') {
     withCredentials([
-        usernamePassword(credentialsId: 'digitalocean-spaces', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
+        usernamePassword(credentialsId: 'digitalocean-spaces', usernameVariable: 'S3KEY', passwordVariable: 'S3SECRET')
     ]) {
-        sh 's3cmd --access_key="${AWS_ACCESS_KEY_ID}" --secret_key="${AWS_SECRET_ACCESS_KEY}" --host=ams3.digitaloceanspaces.com put linux-amd64.tgz s3://stutz/${BRANCH_NAME}/dist/linux-amd64.tgz'
+        sh './upload.sh'
     }
   }
 }
