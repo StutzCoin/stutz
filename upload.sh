@@ -17,12 +17,12 @@ function putS3
   string="PUT\n\n$content_type\n$date\n$acl\n/${BUCKET}$aws_path$file"
   signature=$(echo -en "${string}" | openssl sha1 -hmac "${S3SECRET}" -binary | base64)
   curl -X PUT -T "$path/$file" \
-    -H "Host: ${BUCKET}.s3.amazonaws.com" \
+    -H "Host: ${BUCKET}.ams3.digitaloceanspaces.com" \
     -H "Date: $date" \
     -H "Content-Type: $content_type" \
     -H "$acl" \
     -H "Authorization: AWS ${S3KEY}:$signature" \
-    "https://${BUCKET}.s3.amazonaws.com$aws_path$file"
+    "https://${BUCKET}.ams3.digitaloceanspaces.com$aws_path$file" || echo "Error uploading!"
 }
 
 for file in "$path"/*; do
