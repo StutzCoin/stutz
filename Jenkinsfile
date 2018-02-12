@@ -51,7 +51,7 @@ node('x86') {
     withCredentials([
         usernamePassword(credentialsId: 'digitalocean-spaces', usernameVariable: 'S3KEY', passwordVariable: 'S3SECRET')
     ]) {
-        sh './upload.sh "${S3KEY}" "${S3SECRET}" stutz@ams3 linux-amd64.tgz dist/${BRANCH_NAME}'
+        sh './upload.sh "${S3KEY}" "${S3SECRET}" stutz@ams3 linux-amd64.tgz dist/${BRANCH_NAME}/'
     }
   }
 }
