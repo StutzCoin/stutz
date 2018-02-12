@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # found on http://blog.0xpebbles.org/shell-script-for-S3-upload-via-curl-using-AWS-version-4-signatures¨
-# adapted by rootLogin <hello@rootlogin.ch>
+# adapted for digitalocean spaces by rootLogin <hello@rootlogin.ch>
 
 usage()
 {
