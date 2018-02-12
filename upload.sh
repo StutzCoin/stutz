@@ -1,32 +1,125 @@
-#!/bin/bash
-# You don't need Fog in Ruby or some other library to upload to S3 -- shell works perfectly fine
-# This is how I upload my new Sol Trader builds (http://soltrader.net)
-# Based on a modified script from here: http://tmont.com/blargh/2014/1/uploading-to-s3-in-bash
+#!/usr/bin/env bash
+# found on http://blog.0xpebbles.org/shell-script-for-S3-upload-via-curl-using-AWS-version-4-signatures¨
+# adapted by rootLogin <hello@rootlogin.ch>
 
-BUCKET="stutz"
-
-function putS3
+usage()
 {
-  path=$1
-  file=$2
-  aws_path=$3
+    cat <<USAGE
 
-  date=$(date +"%a, %d %b %Y %T %z")
-  acl="x-amz-acl:public-read"
-  content_type='application/x-compressed-tar'
-  string="PUT\n\n$content_type\n$date\n$acl\n/${BUCKET}$aws_path$file"
-  signature=$(echo -en "${string}" | openssl sha1 -hmac "${S3SECRET}" -binary | base64)
-  curl -X PUT -T "$path/$file" \
-    -H "Host: ${BUCKET}.ams3.digitaloceanspaces.com" \
-    -H "Date: $date" \
-    -H "Content-Type: $content_type" \
-    -H "$acl" \
-    -H "Authorization: AWS ${S3KEY}:$signature" \
-    "https://${BUCKET}.ams3.digitaloceanspaces.com$aws_path$file" || echo "Error uploading!"
+Simple script uploading a file to S3. Supports AWS signature version 4, custom
+region, permissions and mime-types. Uses Content-MD5 header to guarantee
+uncorrupted file transfer.
+
+Usage:
+  `basename $0` aws_ak aws_sk bucket srcfile targfile [acl] [mime_type]
+
+Where <arg> is one of:
+  aws_ak     access key ('' for upload to public writable bucket)
+  aws_sk     secret key ('' for upload to public writable bucket)
+  bucket     bucket name (with optional @region suffix, default is us-east-1)
+  srcfile    path to source file
+  targfile   path to target (dir if it ends with '/', relative to bucket root)
+  acl        s3 access permissions (default: public-read)
+  mime_type  optional mime-type (tries to guess if omitted)
+
+Dependencies:
+  To run, this shell script depends on command-line curl and openssl, as well
+  as standard Unix tools
+
+Examples:
+  To upload file '~/blog/media/image.png' to bucket 'storage' in region
+  'eu-central-1' with key (path relative to bucket) 'media/image.png':
+
+    `basename $0` ACCESS SECRET storage@eu-central-1 \\
+      ~/blog/image.png media/
+
+  To upload file '~/blog/media/image.png' to public-writable bucket 'storage'
+  in default region 'us-east-1' with key (path relative to bucket) 'x/y.png':
+
+    `basename $0` '' '' storage ~/blog/image.png x/y.png
+
+USAGE
+    exit 0
 }
 
-for file in "$path"/*; do
-  putS3 "$path" "${file##*/}" "/path/on/s3/to/files/"
-done
+guessmime()
+{
+    mime=`file -b --mime-type $1`
+    if [ "$mime" = "text/plain" ]; then
+        case $1 in
+            *.css)           mime=text/css;;
+            *.ttf|*.otf)     mime=application/font-sfnt;;
+            *.woff)          mime=application/font-woff;;
+            *.woff2)         mime=font/woff2;;
+            *rss*.xml|*.rss) mime=application/rss+xml;;
+            *)               if head $1 | grep '<html.*>' >/dev/null; then mime=text/html; fi;;
+        esac
+    fi
+    printf "$mime"
+}
 
-putS3 ./ linux-amd64.tgz /${BRANCH_NAME}/dist/
+if [ $# -lt 5 ]; then usage; fi
+
+# Inputs.
+aws_ak="$1"                                                              # access key
+aws_sk="$2"                                                              # secret key
+bucket=`printf $3 | awk 'BEGIN{FS="@"}{print $1}'`                       # bucket name
+region=`printf $3 | awk 'BEGIN{FS="@"}{print ($2==""?"us-east-1":$2)}'`  # region name
+srcfile="$4"                                                             # source file
+targfile=`echo -n "$5" | sed "s/\/$/\/$(basename $srcfile)/"`            # target file
+acl=${6:-'public-read'}                                                  # s3 perms
+mime=${7:-"`guessmime "$srcfile"`"}                                      # mime type
+md5=`openssl md5 -binary "$srcfile" | openssl base64`
+
+
+# Create signature if not public upload.
+key_and_sig_args=''
+if [ "$aws_ak" != "" ] && [ "$aws_sk" != "" ]; then
+
+    # Need current and file upload expiration date. Handle GNU and BSD date command style to get tomorrow's date.
+    date=`date -u +%Y%m%dT%H%M%SZ`
+    expdate=`if ! date -v+1d +%Y-%m-%d 2>/dev/null; then date -d tomorrow +%Y-%m-%d; fi`
+    expdate_s=`printf $expdate | sed s/-//g` # without dashes, as we need both formats below
+    service='s3'
+
+    # Generate policy and sign with secret key following AWS Signature version 4, below
+    p=$(cat <<POLICY | openssl base64
+{ "expiration": "${expdate}T12:00:00.000Z",
+  "conditions": [
+    {"acl": "$acl" },
+    {"bucket": "$bucket" },
+    ["starts-with", "\$key", ""],
+    ["starts-with", "\$content-type", ""],
+    ["content-length-range", 1, `ls -l -H "$srcfile" | awk '{print $5}' | head -1`],
+    {"content-md5": "$md5" },
+    {"x-amz-date": "$date" },
+    {"x-amz-credential": "$aws_ak/$expdate_s/$region/$service/aws4_request" },
+    {"x-amz-algorithm": "AWS4-HMAC-SHA256" }
+  ]
+}
+POLICY
+    )
+
+    # AWS4-HMAC-SHA256 signature
+    s=`printf "$expdate_s"   | openssl sha256 -hmac "AWS4$aws_sk"           -hex | sed 's/(stdin)= //'`
+    s=`printf "$region"      | openssl sha256 -mac HMAC -macopt hexkey:"$s" -hex | sed 's/(stdin)= //'`
+    s=`printf "$service"     | openssl sha256 -mac HMAC -macopt hexkey:"$s" -hex | sed 's/(stdin)= //'`
+    s=`printf "aws4_request" | openssl sha256 -mac HMAC -macopt hexkey:"$s" -hex | sed 's/(stdin)= //'`
+    s=`printf "$p"           | openssl sha256 -mac HMAC -macopt hexkey:"$s" -hex | sed 's/(stdin)= //'`
+
+    key_and_sig_args="-F X-Amz-Credential=$aws_ak/$expdate_s/$region/$service/aws4_request -F X-Amz-Algorithm=AWS4-HMAC-SHA256 -F X-Amz-Signature=$s -F X-Amz-Date=${date}"
+fi
+
+
+# Upload. Supports anonymous upload if bucket is public-writable, and keys are set to ''.
+echo "Uploading: $srcfile ($mime) to $bucket:$targfile"
+curl                            \
+    -# -k                       \
+    -F key=$targfile            \
+    -F acl=$acl                 \
+    $key_and_sig_args           \
+    -F "Policy=$p"              \
+    -F "Content-MD5=$md5"       \
+    -F "Content-Type=$mime"     \
+    -F "file=@$srcfile"         \
+    https://${bucket}.${region}.digitaloceanspaces.com/ | cat # pipe through cat so curl displays upload progress bar, *and* response
