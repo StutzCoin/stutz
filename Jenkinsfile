@@ -27,39 +27,41 @@ pipeline {
             '''
           }
         }
-       stage('Build Windows x86_64') {
-         agent {
-           label "x86"
-         }
-         steps {
-           sh '''
-             PATH=$(echo "$PATH" | sed -e 's/:\\/mnt.*//g')
-             cd depends
-             make HOST=x86_64-w64-mingw32
-             cd ..
-             ./autogen.sh
-             ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32 --enable-asm --enable-static --disable-shared
-             make -j2
-             make check
-           '''
-         }
-       }
 
-      stage('Build Windows i686') {
-        agent {
-          label "x86"
+        stage('Build Windows x86_64') {
+          agent {
+            label "x86"
+          }
+          steps {
+            sh '''
+              PATH=$(echo "$PATH" | sed -e 's/:\\/mnt.*//g')
+              cd depends
+              make HOST=x86_64-w64-mingw32
+              cd ..
+              ./autogen.sh
+              ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32 --enable-asm --enable-static --disable-shared
+              make -j2
+              make check
+            '''
+          }
         }
-        steps {
-          sh '''
-            PATH=$(echo "$PATH" | sed -e 's/:\\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-            cd depends
-            make HOST=i686-w64-mingw32
-            cd ..
-            ./autogen.sh
-            ./configure --prefix=`pwd`/depends/i686-w64-mingw32 --enable-asm --enable-static --disable-shared
-            make -j2
-            make check
-          '''
+
+        stage('Build Windows i686') {
+          agent {
+            label "x86"
+          }
+          steps {
+            sh '''
+              PATH=$(echo "$PATH" | sed -e 's/:\\/mnt.*//g') # strip out problematic Windows %PATH% imported var
+              cd depends
+              make HOST=i686-w64-mingw32
+              cd ..
+              ./autogen.sh
+              ./configure --prefix=`pwd`/depends/i686-w64-mingw32 --enable-asm --enable-static --disable-shared
+              make -j2
+              make check
+            '''
+          }
         }
       }
     }
