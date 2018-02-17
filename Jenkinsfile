@@ -8,6 +8,7 @@ pipeline {
             label "x86"
           }
           steps {
+            sh 'make clean'
             sh './autogen.sh'
             sh '''
               export BDB_PREFIX=/usr/local/BerkeleyDB.4.8
@@ -30,16 +31,12 @@ pipeline {
             label "x86"
           }
           steps {
-            sh '''
-              PATH=$(echo "$PATH" | sed -e 's/:\\/mnt.*//g')
-              cd depends
-              make HOST=x86_64-w64-mingw32
-              cd ..
-              ./autogen.sh
-              ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32 --enable-asm --enable-static --disable-shared
-              make -j2
-              make check
-            '''
+            sh 'make clean'
+            sh 'cd depends && make HOST=x86_64-w64-mingw32'
+            sh './autogen.sh'
+            sh 'CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/'
+            sh 'make -j2'
+            sh 'make check'
           }
         }
 
@@ -48,16 +45,12 @@ pipeline {
             label "x86"
           }
           steps {
-            sh '''
-              PATH=$(echo "$PATH" | sed -e 's/:\\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-              cd depends
-              make HOST=i686-w64-mingw32
-              cd ..
-              ./autogen.sh
-              ./configure --prefix=`pwd`/depends/i686-w64-mingw32 --enable-asm --enable-static --disable-shared
-              make -j2
-              make check
-            '''
+              sh 'make clean'
+              sh 'cd depends && make HOST=i686-w64-mingw32'
+              sh './autogen.sh'
+              sh 'CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/'
+              sh 'make -j2'
+              sh 'make check'
           }
         }
       }
