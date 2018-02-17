@@ -118,3 +118,9 @@ nbproject/
 
 # pyenv
 .python-version
+
+
+.idea/*
+CMakeLists.txt
+cmake-build-debug/*
+mingw-bootstrap.sh
