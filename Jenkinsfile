@@ -8,7 +8,6 @@ pipeline {
             label "x86"
           }
           steps {
-            sh 'make clean'
             sh './autogen.sh'
             sh '''
               export BDB_PREFIX=/usr/local/BerkeleyDB.4.8
@@ -23,6 +22,9 @@ pipeline {
                 BDB_CFLAGS="-I${BDB_PREFIX}/include" \
                 BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"
             '''
+            sh 'make clean'
+            sh 'make -j2'
+            sh 'make check'
           }
         }
 
@@ -31,10 +33,10 @@ pipeline {
             label "x86"
           }
           steps {
-            sh 'make clean'
             sh 'cd depends && make HOST=x86_64-w64-mingw32'
             sh './autogen.sh'
             sh 'CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/'
+            sh 'make clean'
             sh 'make -j2'
             sh 'make check'
           }
@@ -45,12 +47,13 @@ pipeline {
             label "x86"
           }
           steps {
-              sh 'make clean'
-              sh 'cd depends && make HOST=i686-w64-mingw32'
-              sh './autogen.sh'
-              sh 'CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/'
-              sh 'make -j2'
-              sh 'make check'
+            sh 'make clean'
+            sh 'cd depends && make HOST=i686-w64-mingw32'
+            sh './autogen.sh'
+            sh 'CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/'
+            sh 'make clean'
+            sh 'make -j2'
+            sh 'make check'
           }
         }
       }
