@@ -1,9 +1,6 @@
 pipeline {
   agent none
   stages {
-    stage('Checkout') {
-      checkout scm
-    }
     stage("Compile") {
       parallel {
         stage('Build Linux') {
