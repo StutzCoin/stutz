@@ -47,13 +47,25 @@ pipeline {
             label "x86"
           }
           steps {
-            sh 'make clean'
             sh 'cd depends && make HOST=i686-w64-mingw32'
             sh './autogen.sh'
             sh 'CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/'
             sh 'make clean'
             sh 'make -j2'
             sh 'make check'
+          }
+        }
+        stage('Build macOS') {
+          agent {
+            label "macos"
+          }
+          steps {
+            sh './autogen.sh'
+            sh './configure
+            sh 'make clean'
+            sh 'make -j8'
+            sh 'make check'
+            sh 'make deploy'
           }
         }
       }
