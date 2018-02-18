@@ -61,7 +61,7 @@ pipeline {
           }
           steps {
             sh './autogen.sh'
-            sh './configure
+            sh './configure'
             sh 'make clean'
             sh 'make -j8'
             sh 'make check'
