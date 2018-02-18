@@ -60,7 +60,7 @@ pipeline {
             label "macos-sierra"
           }
           steps {
-            sh './autogen.sh'
+            sh 'source ${HOME}/.bashrc && ./autogen.sh'
             sh './configure'
             sh 'make clean'
             sh 'make -j8'
