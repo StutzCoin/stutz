@@ -55,7 +55,23 @@ pipeline {
             sh 'make check'
           }
         }
-        stage('Build macOS') {
+
+        stage('Build macOS Cross') {
+          agent {
+            label "x86"
+          }
+          steps {
+            sh 'cd depends && make HOST=x86_64-apple-darwin11'
+            sh './autogen.sh'
+            sh 'CONFIG_SITE=$PWD/depends/x86_64-apple-darwin11/share/config.site ./configure --prefix=/'
+            sh 'make clean'
+            sh 'make -j2'
+            sh 'make check'
+            sh 'make deploy'
+          }
+        }
+
+        stage('Build macOS Native') {
           agent {
             label "macos-sierra"
           }
