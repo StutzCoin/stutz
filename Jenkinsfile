@@ -35,7 +35,7 @@ pipeline {
           steps {
             sh 'cd depends && make HOST=x86_64-w64-mingw32'
             sh './autogen.sh'
-            sh 'CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/'
+            sh 'CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --enable-threads=posix'
             sh 'make clean'
             sh 'make -j2'
             sh 'make check'
@@ -49,7 +49,7 @@ pipeline {
           steps {
             sh 'cd depends && make HOST=i686-w64-mingw32'
             sh './autogen.sh'
-            sh 'CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/'
+            sh 'CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/ --enable-threads=posix'
             sh 'make clean'
             sh 'make -j2'
             sh 'make check'
