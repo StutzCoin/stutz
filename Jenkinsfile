@@ -61,11 +61,11 @@ pipeline {
           }
           steps {
             sh 'source ${HOME}/.bashrc && ./autogen.sh'
-            sh './configure'
-            sh 'make clean'
-            sh 'make -j8'
-            sh 'make check'
-            sh 'make deploy'
+            sh 'source ${HOME}/.bashrc && ./configure'
+            sh 'source ${HOME}/.bashrc && make clean'
+            sh 'source ${HOME}/.bashrc && make -j8'
+            sh 'source ${HOME}/.bashrc && make check'
+            sh 'source ${HOME}/.bashrc && make deploy'
           }
         }
       }
