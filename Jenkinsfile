@@ -25,6 +25,7 @@ pipeline {
             sh 'make clean'
             sh 'make -j2'
             sh 'make check'
+            sh 'make deploy'
           }
         }
 
@@ -39,6 +40,8 @@ pipeline {
             sh 'make clean'
             sh 'make -j2'
             sh 'make check'
+            sh 'make deploy'
+
           }
         }
 
@@ -53,6 +56,8 @@ pipeline {
             sh 'make clean'
             sh 'make -j2'
             sh 'make check'
+            sh 'make deploy'
+
           }
         }
 
