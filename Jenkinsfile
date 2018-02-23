@@ -12,7 +12,7 @@ pipeline {
     CCACHE_COMPRESS=1
     BASE_OUTDIR=$WORKSPACE/out
     OUTDIR=$WORKSPACE/out
-    SDK_URL=https://bitcoincore.org/depends-sources/sdks
+    SDK_URL="https://bitcoincore.org/depends-sources/sdks"
     PYTHON_DEBUG=1
     WINEDEBUG=fixme-all
     LITECOIN_SCRYPT=0
