@@ -26,14 +26,14 @@ pipeline {
           }
           steps {
             script {
-              HOST=x86_64-unknown-linux-gnu
+              HOST="x86_64-unknown-linux-gnu"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
 
               DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1"
-              RUN_TESTS=true
+              RUN_TESTS="true"
               GOAL="install"
               BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER"
-              LITECOIN_SCRYPT=1
+              LITECOIN_SCRYPT="1"
 
             }
 
