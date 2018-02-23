@@ -3,19 +3,19 @@ pipeline {
   environment {
     DISABLE_AUTH = 'true'
     DB_ENGINE    = 'sqlite'
-    MAKEJOBS=-j2
-    RUN_TESTS=false
-    CHECK_DOC=0
-    BOOST_TEST_RANDOM=1$BUILD_ID
-    CCACHE_SIZE=100M
-    CCACHE_TEMPDIR=/tmp/.ccache-temp
-    CCACHE_COMPRESS=1
-    BASE_OUTDIR=$WORKSPACE/out
-    OUTDIR=$WORKSPACE/out
+    MAKEJOBS="-j2"
+    RUN_TESTS="false"
+    CHECK_DOC="0"
+    BOOST_TEST_RANDOM="1$BUILD_ID"
+    CCACHE_SIZE="100M"
+    CCACHE_TEMPDIR="/tmp/.ccache-temp"
+    CCACHE_COMPRESS="1"
+    BASE_OUTDIR="$WORKSPACE/out"
+    OUTDIR="$WORKSPACE/out"
     SDK_URL="https://bitcoincore.org/depends-sources/sdks"
-    PYTHON_DEBUG=1
-    WINEDEBUG=fixme-all
-    LITECOIN_SCRYPT=0
+    PYTHON_DEBUG="1"
+    WINEDEBUG="fixme-all"
+    LITECOIN_SCRYPT="0"
   }
   stages {
     stage("Compile") {
