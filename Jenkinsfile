@@ -72,7 +72,7 @@ pipeline {
             label "x86"
           }
           steps {
-            sh 'Not implememnted, yet"
+            sh 'Not implemented, yet'
           }
         }
 
@@ -82,7 +82,7 @@ pipeline {
             label "x86"
           }
           steps {
-            sh 'Not implememnted, yet"
+            sh 'Not implemented, yet'
           }
         }
 
@@ -91,7 +91,7 @@ pipeline {
             label 'x86'
           }
           steps {
-            sh 'Not implememnted, yet"
+            sh 'Not implemented, yet'
           }
         }
 
@@ -130,7 +130,7 @@ pipeline {
             label "x86"
           }
           steps {
-            sh 'Not implememnted, yet"
+            sh 'Not implemented, yet'
           }
         }
 
