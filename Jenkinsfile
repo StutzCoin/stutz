@@ -62,8 +62,8 @@ pipeline {
               LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
             }
 
-            sh "if [ \"$RUN_TESTS\" = "true" ]; then make $MAKEJOBS check VERBOSE=1; fi"
-            sh "if [ \"$RUN_TESTS\" = "true" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
+            sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
+            sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
           }
         }
 
