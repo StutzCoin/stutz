@@ -34,7 +34,7 @@ pipeline {
               RUN_TESTS="true"
               GOAL="install"
               BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2"
-              CPPFLAGS=-DDEBUG_LOCKORDER
+              CPPFLAGS="-DDEBUG_LOCKORDER"
               LITECOIN_SCRYPT="1"
 
             }
