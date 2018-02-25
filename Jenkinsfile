@@ -48,7 +48,7 @@ pipeline {
 
             sh "./autogen.sh"
 
-            sh "mkdir build"
+            sh "mkdir -p build"
 
             dir("build") {
               sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
