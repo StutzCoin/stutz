@@ -16,6 +16,7 @@ pipeline {
     PYTHON_DEBUG="1"
     WINEDEBUG="fixme-all"
     LITECOIN_SCRYPT="0"
+    OSX_SDK=10.11
   }
   stages {
     stage("Compile") {
