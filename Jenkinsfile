@@ -51,7 +51,9 @@ pipeline {
 
             sh "./autogen.sh"
 
-            sh "rm -rf build && mkdir -p build"
+            sh "mkdir -p build"
+
+            sh "if test -f config.status; then make distclean; fi"
 
             dir("build") {
               sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
