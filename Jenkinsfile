@@ -39,7 +39,6 @@ pipeline {
 
             }
 
-            sh "make distclean"
 
 
             sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
