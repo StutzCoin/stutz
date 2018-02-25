@@ -41,7 +41,6 @@ pipeline {
 
             sh "make distclean"
 
-            sh "if [ "$LITECOIN_SCRYPT" = 1 ]; sudo pip3 install litecoin_scrypt; fi"
 
             sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
             sh "mkdir -p depends/SDKs depends/sdk-sources"
