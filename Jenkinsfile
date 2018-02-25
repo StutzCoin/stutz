@@ -30,15 +30,18 @@ pipeline {
               HOST="x86_64-unknown-linux-gnu"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
 
-              DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1"
+              DEP_OPTS="NO_QT=0 NO_UPNP=0 DEBUG=1 ALLOW_HOST_PACKAGES=1"
               RUN_TESTS="true"
               GOAL="install"
-              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER"
+              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2"
+              CPPFLAGS=-DDEBUG_LOCKORDER"
               LITECOIN_SCRYPT="1"
 
             }
 
             sh "make distclean"
+
+            sh "if [ "$LITECOIN_SCRYPT" = 1 ]; sudo pip3 install litecoin_scrypt; fi"
 
             sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
             sh "mkdir -p depends/SDKs depends/sdk-sources"
