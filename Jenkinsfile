@@ -10,8 +10,6 @@ pipeline {
     CCACHE_SIZE="100M"
     CCACHE_TEMPDIR="/tmp/.ccache-temp"
     CCACHE_COMPRESS="1"
-    BASE_OUTDIR="$WORKSPACE/out"
-    OUTDIR="$WORKSPACE/out"
     SDK_URL="https://bitcoincore.org/depends-sources/sdks"
     PYTHON_DEBUG="1"
     WINEDEBUG="fixme-all"
@@ -27,6 +25,8 @@ pipeline {
           }
           steps {
             script {
+              BASE_OUTDIR="$WORKSPACE/out"
+              OUTDIR="$WORKSPACE/out"
               HOST="x86_64-unknown-linux-gnu"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
 
