@@ -33,6 +33,7 @@ pipeline {
               DEP_OPTS="NO_QT=1"
               GOAL="install"
               BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports"
+              LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -52,9 +53,7 @@ pipeline {
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                    
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
                       sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
@@ -77,6 +76,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-reduce-exports"
               LITECOIN_SCRYPT="1"
               STUTZ_SCRYPT="1"
+              LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -96,9 +96,7 @@ pipeline {
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                      
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
                       sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
@@ -121,6 +119,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
               LITECOIN_SCRYPT="1"
               STUTZ_SCRYPT="1"
+              LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -141,9 +140,7 @@ pipeline {
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                     
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
                       sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
@@ -166,6 +163,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-reduce-exports --enable-sse2"
               LITECOIN_SCRYPT="1"
               STUTZ_SCRYPT="1"
+              LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -185,9 +183,7 @@ pipeline {
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                      
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
                       sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
@@ -211,6 +207,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER BDB_CFLAGS=-I${BDB_PREFIX}/include BDB_LIBS=\"-L${BDB_PREFIX}/lib -ldb_cxx\""
               LITECOIN_SCRYPT="1"
               STUTZ_SCRYPT="1"
+            LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -230,9 +227,7 @@ pipeline {
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                      
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
                       sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
@@ -256,6 +251,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports --enable-sse2"
               LITECOIN_SCRYPT="1"
               STUTZ_SCRYPT="1"
+            LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -275,9 +271,7 @@ pipeline {
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                      
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
                       sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
@@ -301,6 +295,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-gui --enable-reduce-exports --enable-sse2"
               LITECOIN_SCRYPT="1"
               STUTZ_SCRYPT="1"
+            LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
 
@@ -319,12 +314,9 @@ pipeline {
                   sh "make distdir VERSION=$HOST"
                   dir("stutz-$HOST") {
                     sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
-                      sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
-                      script {
-                        LD_LIBRARY_PATH=$WORKSPACE/depends/$HOST/lib
-                      }
+                    sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
-                      sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
+                    sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
               }
           }
