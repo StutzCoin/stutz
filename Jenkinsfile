@@ -29,17 +29,17 @@ pipeline {
               OUTDIR="$WORKSPACE/out"
               HOST="x86_64-unknown-linux-gnu"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
-
+              BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
+              
               DEP_OPTS="NO_QT=0 NO_UPNP=0 DEBUG=1 ALLOW_HOST_PACKAGES=1"
               RUN_TESTS="true"
               GOAL="install"
-              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER"
+              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER BDB_CFLAGS=-I${BDB_PREFIX}/include BDB_LIBS=-L${BDB_PREFIX}/lib -ldb_cxx"
+
+
               LITECOIN_SCRYPT="1"
 
 
-              BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
-              BDB_CFLAGS="-I${BDB_PREFIX}/include"
-              BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"
             }
 
 
