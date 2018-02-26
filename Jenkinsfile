@@ -35,6 +35,7 @@ pipeline {
               BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports"
             }
 
+            printEnv
             sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
             sh "mkdir -p depends/SDKs depends/sdk-sources"
             sh "if [ -n \"$OSX_SDK\" -a ! -f depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz ]; then curl --location --fail $SDK_URL/MacOSX${OSX_SDK}.sdk.tar.gz -o depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz; fi"
