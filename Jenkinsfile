@@ -37,8 +37,8 @@ pipeline {
               LITECOIN_SCRYPT="1"
 
 
-              BDB_PREFIX=/usr/local/BerkeleyDB.4.8
-              BDB_CFLAGS="-I${BDB_PREFIX}/include" \
+              BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
+              BDB_CFLAGS="-I${BDB_PREFIX}/include"
               BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"
             }
 
