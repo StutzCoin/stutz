@@ -14,9 +14,9 @@ pipeline {
         PYTHON_DEBUG="1"
         WINEDEBUG="fixme-all"
         LITECOIN_SCRYPT="0"
-        OSX_SDK=""
+        OSX_SDK=" "
         BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
-        DEP_OPTS=""
+        DEP_OPTS=" "
     }
   stages {
     stage("Compile") {
