@@ -1,6 +1,10 @@
 Stutz Core integration/staging tree
 =====================================
 
+## private travis
+[![Build Status](https://travis-ci.com/stutz-project/stutz.svg?branch=master)](https://travis-ci.org/stutz-project/stutz)
+
+## public travis
 [![Build Status](https://travis-ci.org/stutz-project/stutz.svg?branch=master)](https://travis-ci.org/stutz-project/stutz)
 
 https://stutz.org
