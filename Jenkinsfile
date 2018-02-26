@@ -34,7 +34,7 @@ pipeline {
               DEP_OPTS="NO_QT=0 NO_UPNP=0 DEBUG=1 ALLOW_HOST_PACKAGES=1"
               RUN_TESTS="true"
               GOAL="install"
-              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER BDB_CFLAGS=-I${BDB_PREFIX}/include BDB_LIBS=-L${BDB_PREFIX}/lib -ldb_cxx"
+              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER BDB_CFLAGS=-I${BDB_PREFIX}/include BDB_LIBS=\"-L${BDB_PREFIX}/lib -ldb_cxx\""
 
 
               LITECOIN_SCRYPT="1"
