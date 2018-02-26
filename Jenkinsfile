@@ -33,8 +33,7 @@ pipeline {
               DEP_OPTS="NO_QT=0 NO_UPNP=0 DEBUG=1 ALLOW_HOST_PACKAGES=1"
               RUN_TESTS="true"
               GOAL="install"
-              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2"
-              CPPFLAGS="-DDEBUG_LOCKORDER"
+              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER"
               LITECOIN_SCRYPT="1"
 
 
@@ -60,13 +59,13 @@ pipeline {
             sh "if test -f config.status; then make distclean; fi"
 
             dir("build") {
-              sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
+              sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG $BDB_CFLAGS $BDB_LIBS || ( cat config.log && false)"
 
               sh "make distdir VERSION=$HOST"
 
               dir("stutz-$HOST") {
 
-                sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
+                sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG $BDB_CFLAGS $BDB_LIBS || ( cat config.log && false)"
                 sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
 
                 script {
