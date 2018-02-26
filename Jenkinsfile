@@ -33,15 +33,18 @@ pipeline {
               DEP_OPTS="NO_QT=0 NO_UPNP=0 DEBUG=1 ALLOW_HOST_PACKAGES=1"
               RUN_TESTS="true"
               GOAL="install"
+<<<<<<< HEAD
               BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 --with-incompatible-bdb"
               CPPFLAGS=-DDEBUG_LOCKORDER
+=======
+              BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2"
+              CPPFLAGS="-DDEBUG_LOCKORDER"
+>>>>>>> f7d6d82601faaa32547f8ad072903f0529caca78
               LITECOIN_SCRYPT="1"
 
             }
 
-            sh "make distclean"
 
-            sh "if [ "$LITECOIN_SCRYPT" = 1 ]; sudo pip3 install litecoin_scrypt; fi"
 
             sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
             sh "mkdir -p depends/SDKs depends/sdk-sources"
@@ -54,6 +57,8 @@ pipeline {
             sh "./autogen.sh"
 
             sh "mkdir -p build"
+
+            sh "if test -f config.status; then make distclean; fi"
 
             dir("build") {
               sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
