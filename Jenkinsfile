@@ -14,8 +14,9 @@ pipeline {
         PYTHON_DEBUG="1"
         WINEDEBUG="fixme-all"
         LITECOIN_SCRYPT="0"
-        OSX_SDK=10.11
+        OSX_SDK=""
         BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
+        DEP_OPTS=""
     }
   stages {
     stage("Compile") {
@@ -339,6 +340,7 @@ pipeline {
               OUTDIR="$WORKSPACE/out"
               HOST="x86_64-apple-darwin11"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
+              OSX_SDK=10.11
 
               GOAL="deploy"
               BITCOIN_CONFIG="--enable-gui --enable-reduce-exports --enable-sse2"
