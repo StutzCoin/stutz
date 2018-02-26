@@ -59,13 +59,13 @@ pipeline {
             sh "if test -f config.status; then make distclean; fi"
 
             dir("build") {
-              sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG $BDB_CFLAGS $BDB_LIBS || ( cat config.log && false)"
+              sh "../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
 
               sh "make distdir VERSION=$HOST"
 
               dir("stutz-$HOST") {
 
-                sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG $BDB_CFLAGS $BDB_LIBS || ( cat config.log && false)"
+                sh "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG || ( cat config.log && false)"
                 sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
 
                 script {
