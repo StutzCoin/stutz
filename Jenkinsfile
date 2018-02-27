@@ -17,6 +17,7 @@ pipeline {
         OSX_SDK=" "
         BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
         DEP_OPTS=" "
+        extended=" " 
     }
   stages {
     stage("Compile") {
