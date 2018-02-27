@@ -56,7 +56,7 @@ pipeline {
                       sh "make $MAKEJOBS $GOAL || ( echo \"Build failure. Verbose build follows.\" && make $GOAL V=1 ; false )"
                     
                     sh "if [ \"$RUN_TESTS\" = \"true\" ]; then make $MAKEJOBS check VERBOSE=1; fi"
-                      sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
+                    sh "if [ \"$RUN_TESTS\" = \"true\" ]; then test/functional/test_runner.py --coverage --quiet ${extended}; fi"
                   }
               }
           }
@@ -71,7 +71,6 @@ pipeline {
               OUTDIR="$WORKSPACE/out"
               HOST="i686-w64-mingw32"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
-              RUN_TESTS="true"
               DEP_OPTS="NO_QT=1"
               GOAL="install"
               BITCOIN_CONFIG="--enable-reduce-exports"
@@ -114,7 +113,6 @@ pipeline {
               OUTDIR="$WORKSPACE/out"
               HOST="i686-pc-linux-gnu"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
-              RUN_TESTS="true"
               DEP_OPTS="NO_QT=1"
               GOAL="install"
               BITCOIN_CONFIG="--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
@@ -158,7 +156,6 @@ pipeline {
               OUTDIR="$WORKSPACE/out"
               HOST="x86_64-w64-mingw32"
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
-              RUN_TESTS="true"
               DEP_OPTS="NO_QT=1"
               GOAL="install"
               BITCOIN_CONFIG="--enable-reduce-exports --enable-sse2"
@@ -203,7 +200,6 @@ pipeline {
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
 
               DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1"
-              RUN_TESTS="true"
               GOAL="install"
               BITCOIN_CONFIG="--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --enable-sse2 CPPFLAGS=-DDEBUG_LOCKORDER BDB_CFLAGS=-I${BDB_PREFIX}/include BDB_LIBS=\"-L${BDB_PREFIX}/lib -ldb_cxx\""
               LITECOIN_SCRYPT="1"
@@ -247,7 +243,6 @@ pipeline {
               BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$WORKSPACE/depends/$HOST --bindir=$OUTDIR/bin --libdir=$OUTDIR/lib"
 
               DEP_OPTS="NO_WALLET=1"
-              RUN_TESTS="true"
               GOAL="install"
               BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports --enable-sse2"
               LITECOIN_SCRYPT="1"
