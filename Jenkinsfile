@@ -1,4 +1,4 @@
-def build() {
+def build_stutz() {
   sh "printenv"
   sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
   sh "mkdir -p depends/SDKs depends/sdk-sources"
@@ -60,7 +60,7 @@ pipeline {
               LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
-            build()
+            build_stutz()
           }
         }
 
