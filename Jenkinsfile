@@ -60,7 +60,7 @@ pipeline {
               LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
           }
           steps {
-            build
+            build()
           }
         }
 
