@@ -1,6 +1,6 @@
 def build_stutz() {
   sh "printenv"
-  sh "if [ \"${PACKAGES}\" != \" \" ]; then apt-get install ${PACKAGES} -y; fi"
+  sh "if [ \"${PACKAGES}\" != \" \" ]; then sudo apt-get install ${PACKAGES} -y; fi"
   sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
   sh "mkdir -p depends/SDKs depends/sdk-sources"
   sh "if [ -n \"$OSX_SDK\" -a ! -f depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz ]; then curl --location --fail $SDK_URL/MacOSX${OSX_SDK}.sdk.tar.gz -o depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz; fi"
