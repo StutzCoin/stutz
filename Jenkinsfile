@@ -1,5 +1,6 @@
 def build_stutz() {
   sh "printenv"
+  sh "if [ "${PACKAGES} != " " ]; then apt-get install ${PACKAGES} -y"
   sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
   sh "mkdir -p depends/SDKs depends/sdk-sources"
   sh "if [ -n \"$OSX_SDK\" -a ! -f depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz ]; then curl --location --fail $SDK_URL/MacOSX${OSX_SDK}.sdk.tar.gz -o depends/sdk-sources/MacOSX${OSX_SDK}.sdk.tar.gz; fi"
@@ -42,6 +43,7 @@ pipeline {
       BDB_PREFIX="/usr/local/BerkeleyDB.4.8"
       DEP_OPTS=" "
       extended=" " 
+      PACKAGES="g++-multilib gcc-multilib"
     }
   stages {
     stage("Compile") {
@@ -59,6 +61,7 @@ pipeline {
             GOAL="install"
             BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports"
             LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$WORKSPACE/depends/$HOST/lib"
+            PACKAGES="gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf"
           }
           steps {
             build_stutz()
