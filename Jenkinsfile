@@ -1,5 +1,6 @@
 def build_stutz() {
   sh "printenv"
+  sh "rm -rf build/config.cache"
   sh "if [ \"${PACKAGES}\" != \" \" ]; then sudo apt-get install ${PACKAGES} -y; fi"
   sh "if [ \"$CHECK_DOC\" = 1 ]; then contrib/devtools/check-doc.py; fi"
   sh "mkdir -p depends/SDKs depends/sdk-sources"
